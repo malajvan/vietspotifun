@@ -1,12 +1,12 @@
 import spotipy
-import json,re
+import json
 import pandas as pd
 from spotipy.oauth2 import SpotifyClientCredentials
 from authenticate import authenticate
 import util_help as uh
 
 """
-Some useful/fun functions to get to know your artists using spotipy <3. See each function for details
+Some useful/fun functions to get to know your artists and their albums using spotipy <3. See each function for details
 """
 token=authenticate("eyyolk","user-library-read","409f2b568b5146298d8db0ff754ce726","c85512ab0ea94debae3c39f5adae1c44","https://www.facebook.com/hiiamvan")
 
@@ -32,7 +32,7 @@ def get_albums(artist_uri,type=None):
     return albums
 
 
-def get_tracks(album_id):
+def get_album_tracks(album_id):
     '''
     ~get all tracks from an album ~
     ----
@@ -60,7 +60,7 @@ def get_artist_tracks(artist_uri):
     tracks=list()
     albums=get_albums(artist_uri)
     for i in albums:
-        tracks+= get_tracks(i['id'])
+        tracks+= get_album_tracks(i['id'])
 
     #remove possible duplicates
     done = set()
@@ -101,9 +101,34 @@ def get_artist_keys(artist_uri):
 
     return result
 
+def get_danceability(id,option="album"):
+    '''
+    ~get average danceability of songs in the album or of each artist~
+    ----
+    parameters:
+        * id: album's id / artist's uri
+        * option (default="album"): decide whether to compute danceability for songs in the album or of the artist
+    return:
+        --> float
+    '''
+    if option=="album":
+        tracks=get_album_tracks(id)
+    elif option=="artist":
+        tracks=get_artist_tracks(id)
+
+
+    track_info=list()
+    danceability=0
+    for song in tracks:
+        track_info+=token.audio_features(song['id'])
+    for song in track_info:
+        danceability+= (song['danceability'])
+    return (danceability/len(track_info))
+
+
 
 def main():
-    ngot
+    print((get_danceability("1984OVQ0KnJW80MiZYOrFF","artist")))
 
 
 
