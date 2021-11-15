@@ -125,11 +125,36 @@ def get_danceability(id,option="album"):
         danceability+= (song['danceability'])
     return (danceability/len(track_info))
 
+def get_tempo(id,option="album"):
+    '''
+    ~get average danceability of songs in the album or of each artist~
+    ----
+    parameters:
+        * id: album's id / artist's uri
+        * option (default="album"): decide whether to compute danceability for songs in the album or of the artist
+    return:
+        --> float
+    '''
+    if option=="album":
+        tracks=get_album_tracks(id)
+    elif option=="artist":
+        tracks=get_artist_tracks(id)
+
+
+    track_info=list()
+    tempo=0
+    for song in tracks:
+        track_info+=token.audio_features(song['id'])
+
+    print(len(track_info))
+    for song in track_info:
+        tempo+= (song['tempo'])
+    return (tempo/len(track_info))
+
 
 
 def main():
-    uh.dump_dict_to_file('fun.json',token.artist_related_artists('0V2DfUrZvBuUReS1LFo5ZI'))
-
+    print(get_tempo('7guDJrEfX3qb6FEbdPA5qi',"artist"))
 
 
 if __name__ == '__main__':
