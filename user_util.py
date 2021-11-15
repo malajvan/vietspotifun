@@ -42,9 +42,28 @@ def get_playlist_tracks(playlist_id):
         tracks.append({'name': i['name'],'artists':artists,'id':i['id']})
     return tracks
 
+def get_playlist_danceability(playlist_id):
+    '''
+    ~get average danceability of songs in the playlist~
+    ----
+    parameters:
+        * id: album's id / artist's uri
+    return:
+        --> float
+    '''
+    tracks=get_playlist_tracks(playlist_id)
+
+    track_info=list()
+    danceability=0
+    for song in tracks:
+        track_info+=token.audio_features(song['id'])
+    for song in track_info:
+        danceability+= (song['danceability'])
+    print(len(track_info))
+    return (danceability/len(track_info))
+
 def main():
-    print()
-    uh.dump_dict_to_file('ih.json',get_playlist_tracks('4Bn45usEjhVURzkuIlg61s'))
+    print(get_playlist_danceability('1oO49Ne3q4iwDAnN3RyoP1'))
 
 if __name__ == '__main__':
     main()
