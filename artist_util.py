@@ -10,7 +10,7 @@ Some useful/fun functions to get to know your artists and their albums using spo
 """
 token=authenticate("eyyolk","user-library-read","409f2b568b5146298d8db0ff754ce726","c85512ab0ea94debae3c39f5adae1c44","https://www.facebook.com/hiiamvan")
 
-ngot = '57g2v7gJZepcwsuwssIfZs'
+
 
 
 
@@ -128,7 +128,7 @@ def get_danceability(id,option="album"):
 
 
 def main():
-    print((get_danceability("1984OVQ0KnJW80MiZYOrFF","artist")))
+    uh.dump_dict_to_file('fun.json',token.artist_related_artists('0V2DfUrZvBuUReS1LFo5ZI'))
 
 
 
