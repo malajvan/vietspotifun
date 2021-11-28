@@ -28,7 +28,6 @@ def get_albums(artist_uri,type=None):
     albums=list()
     for i in results['items']:
         albums.append({'name': i['name'],'id':i['id']})
-
     return albums
 
 
@@ -145,16 +144,26 @@ def get_tempo(id,option="album"):
     tempo=0
     for song in tracks:
         track_info+=token.audio_features(song['id'])
-
-    print(len(track_info))
     for song in track_info:
         tempo+= (song['tempo'])
     return (tempo/len(track_info))
 
+def albums_popu(artist_id):
+    albums=get_albums(artist_id,type="album")+(get_albums(artist_id,type="single"))
+    result=dict()
 
-
+    for al in albums:
+        a=0
+        tracks=get_album_tracks(al['id'])
+        for tr in tracks:
+            a+=token.track(tr['id'])['popularity']
+        d=dict()
+        d['popularity']=a/len(tracks)
+        d['release_date']=(token.album(al['id'])['release_date'])
+        result[al['name']]=d
+    return result
 def main():
-    print(get_tempo('7guDJrEfX3qb6FEbdPA5qi',"artist"))
+    print(albums_popu("57g2v7gJZepcwsuwssIfZs"))
 
 
 if __name__ == '__main__':
