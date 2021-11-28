@@ -1,7 +1,17 @@
+# Ignore Mac system files
+.DS_store
+
+# Ignore cache and authenticating file
+.cache-eyyolk
+token_file.py
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
 
 # C extensions
 *.so

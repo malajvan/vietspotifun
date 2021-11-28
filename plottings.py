@@ -6,8 +6,9 @@ import numpy as np
 import spotipy
 import json
 import networkx as nx
+import token_file
 
-
+token=token_file.token()
 def keys(artist_uri): #return bar graph of keycount of artist
     a=(util.get_artist_keys(artist_uri))
     df=pd.json_normalize(a)
@@ -55,7 +56,7 @@ def audio_features_map():
         a=(ut.get_playlist_tracks(playlist_id))
         df=pd.json_normalize(a)
         ids=df['id'].tolist()
-        features=ut.toke().audio_features(ids)
+        features=token.audio_features(ids)
         df=pd.json_normalize(features)
         df2=df.drop(columns=['key','type','id','uri','loudness','track_href','analysis_url','mode','time_signature','tempo','duration_ms'])
         return df2
